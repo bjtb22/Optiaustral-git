@@ -1,6 +1,7 @@
 <?php require "conec.php";?>
                         <?php
-                        $consulta="SELECT * from lenses_description where id_lens_description=16";
+                        $id=$_GET['id'];
+                        $consulta="SELECT * from lenses_description where id_lens_description=".$id;
                         $resultado=mysqli_query($conexion, $consulta) or die ("no se pudo realizar la consulta por ".mysql_error());
                         while($columna=mysqli_fetch_array($resultado)){?>
 <!DOCTYPE html>
@@ -149,7 +150,7 @@
                             </div>
                             <div class="glass-photo" id="photo">
                                 <div class="glass-profile glass-zoomBig" style="position: relative; overflow: hidden;">
-                                    <img src="img/glass-thumb1.png" alt="">
+                                    <img <?php echo "src='".$columna['img_frontal']."'"; ?> alt="">
                                 <img role="presentation" alt="" src="img/glass-thumb1.png" class="zoomImg" style="position: absolute; top: -50.4845px; left: -616.884px; opacity: 0; width: 1296px; height: 1296px; border: medium none; max-width: none; max-height: none;"></div>
                             </div>
                         </span>
@@ -182,7 +183,7 @@
                             </li>
                             <li>
                                 <div style="font-size: 18px;">
-                                    <span><?php $columna["codigo"];?></span>
+                                    <span><?php echo $columna["codigo"];?></span>
                                 </div>
                             </li>
                             <li>

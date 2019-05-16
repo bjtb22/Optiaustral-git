@@ -262,7 +262,7 @@
                 </div>
                 <div class="gallery">
 <?php
-                        $consulta="SELECT codigo, img_artistica from lenses_description where genero='unisex' group by codigo";
+                        $consulta="SELECT codigo, img_artistica from lenses_description where (genero='unisex' OR genero='MUJER') AND img_artistica!='NULL'";
                         $resultado=mysqli_query($conexion, $consulta) or die ("no se pudo realizar la consulta por ".mysql_error());
                         while($columna=mysqli_fetch_array($resultado)){?>
                     <div class="gallery-item">
