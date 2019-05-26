@@ -1,4 +1,3 @@
-<?php require "conec.php";?>
 <!doctype html>
 <html class="no-js" lang="es">
 <head>
@@ -35,7 +34,7 @@
                 <ul class="top-menu">
                     <li><a href="tel:6004509000">Ayuda</a></li>
                     <li><a href="#">Mi Cuenta</a></li>
-                    <li><a href="#">Ordenes</a></li>
+                    <li><a href="#">Órdenes</a></li>
                     <li>
                         <a href="javascript:void(0)" class="favorites">
                             <i class="fa fa-heart-o"></i>
@@ -69,19 +68,19 @@
                     <li class="products-dropdown">
                         <a href="javascript:void(0)">Productos</a>
                         <ul class="p-dropdown">
-                            <a href="hombres.php">Lentes de Hombre</a>
-                            <a href="mujer.php">Lentes de Mujes</a>
+                            <a href="hombres.html">Lentes de Hombre</a>
+                            <a href="mujer.html">Lentes de Mujer</a>
                         </ul>
                     </li>
                     <li class="services-dropdown">
                         <a href="javascript:void(0)">Servicios</a>
                         <ul class="s-dropdown">
-                            <a href="#">Servicios a Empresas</a>
+                            <a href="empresas.html">Servicios a Empresas</a>
                         </ul>
                     </li>
                     <li><a href="tel:6004509000">Contacto</a></li>
                     <li class="ubicanos-dropdown">
-                        <a href="javascript:void(0)">Ubicanos</a>
+                        <a href="javascript:void(0)">Ubícanos</a>
                         <ul class="u-dropdown">
                             <a href="https://goo.gl/maps/DkdLXekpWCH2">Santiago</a>
                             <a href="https://goo.gl/maps/aSRdbhqvpB82">Quilpué</a>
@@ -104,10 +103,10 @@
         <div class="slider">
             <div class="slider-caption">
                 <h3>Lentes de Hombre</h3>
-                <p>Aquí encontraras un lente que se adapte a tu personalidad</p>
+                <p>Somos una óptica chilena, encargada de la atención a personas y empresas a nivel nacional. Te invitamos a conocer nuestros productos y servicios, deja en nuestras manos el cuidado de tu salud visual. Hacer Pedido</p>
                 <div class="slider-group">
                     <a href="#" class="slider-button">Hacer Pedido</a>
-                    <a href="#" class="slider-button slider-button-outline">Contactanos</a>
+                    <a href="tel:6004509000" class="slider-button slider-button-outline">Contáctanos</a>
                     <div class="slider-socials">
                         <a href="https://www.facebook.com/pg/optiaustral/">
                             <i class="fa fa-facebook"></i>
@@ -167,7 +166,7 @@
         <section class="products">
             <div class="container">
                 <div class="filter">
-                    <h3>Filtro de Busqueda</h3>
+                    <h3>Filtro de Búsqueda</h3>
                     <div class="filter-item">
                         <h4>Fijar Precio</h4>
                         <div class="filter-price">
@@ -183,7 +182,7 @@
                         <button href="#" class="button button-primary" style="width: 100%;">Buscar</button>
                     </div>
                     <div class="filter-item">
-                        <h4>Condicion</h4>
+                        <h4>Condición</h4>
                         <li>Nuevo</li>
                         <li>Usado</li>
                     </div>
@@ -208,13 +207,13 @@
                         <h4>Puesto</h4>
                         <li>Más Visitados</li>
                         <li>Más Vendidos</li>
-                        <li>Segun tu Búsqueda</li>
+                        <li>Según tu Búsqueda</li>
                     </div>
                     <div class="filter-item">
                         <h4>Forma de Marco</h4>
                         <li>Cuadrada</li>
                         <li>Gato</li>
-                        <li>Rectangular</li>
+                        <li>Rectángular</li>
                         <li>Redonda</li>
                     </div>
                     <div class="filter-item">
@@ -226,8 +225,8 @@
                     </div>
                     <div class="filter-item">
                         <h4>Material</h4>
-                        <li>Metalico</li>
-                        <li>Plastico</li>
+                        <li>Metálico</li>
+                        <li>Plástico</li>
                     </div>
                     <div class="filter-item">
                         <h4>Dimensiones</h4>
@@ -261,10 +260,6 @@
                     </div>
                 </div>
                 <div class="gallery">
-                        <?php
-                        $consulta="SELECT id_lens_description as id,codigo, img_artistica from lenses_description where (genero='unisex' OR genero='HOMBRE') and img_artistica!='NULL' LIMIT 12";
-                        $resultado=mysqli_query($conexion, $consulta) or die ("no se pudo realizar la consulta por ".mysql_error());
-                        while($columna=mysqli_fetch_array($resultado)){?>
                     <div class="gallery-item">
                         <div class="gallery-head">
                             <span>10% Oferta</span>
@@ -277,21 +272,88 @@
                             <span class="glass-color-1"></span>
                             <span class="glass-color-2"></span>
                         </div>
-                        <?php echo "<a href='detalle.php?id='".$columna['id']."' id='glass-color-1'>";?>
+                        <a href="detalle.html" id="glass-color-1">
+                            <img src="img/glass-1.png">
+                        </a>
+                        <div class="gallery-name">
+                            <span>G-2091</span>
+                        </div>
+                        <div class="gallery-footer">
+                            <span>$80.30</span>
+                            <span style="font-size: 16px;cursor: pointer;">Ver</span>
+                        </div>
+                    </div>
                 
-                          <?php
-                            echo"<img src=".$columna['img_artistica'].">";
-                        echo "</a>";
-                        echo "<div class='gallery-name'>";
-                            echo"<span>".$columna['codigo']."</span>";
-                        echo "</div>";
-                        echo "<div class='gallery-footer'>";
-                            echo "<span>$80.30</span>";
-                            echo "<span style='font-size: 16px;cursor: pointer;'>Ver</span>";
-                        echo "</div>";
-                    echo "</div>";
-                }?>
-               
+                    <div class="gallery-item">
+                        <div class="gallery-head">
+                            <span>15% Oferta</span>
+                            <a href="javascript:void(0)" class="favorites">
+                                <i class="fa fa-heart-o"></i>
+                                <i class="fa fa-heart"></i>
+                            </a>
+                        </div>
+                        <div class="gallery-colors">
+                            <span class="glass-color-3"></span>
+                            <span class="glass-color-4"></span>
+                        </div>
+                        <a href="detalle.html" id="glass-color-2">
+                            <img src="img/glass-2.png">
+                        </a>
+                        <div class="gallery-name">
+                            <span>G-2092</span>
+                        </div>
+                        <div class="gallery-footer">
+                            <span>$62.30</span>
+                            <span style="font-size: 16px;cursor: pointer;">Ver</span>
+                        </div>
+                    </div>
+                
+                    <div class="gallery-item">
+                        <div class="gallery-head">
+                            <span>Agotado</span>
+                            <a href="javascript:void(0)" class="favorites">
+                                <i class="fa fa-heart-o"></i>
+                                <i class="fa fa-heart"></i>
+                            </a>
+                        </div>
+                        <div class="gallery-colors">
+                            <span class="glass-color-5"></span>
+                            <span class="glass-color-6"></span>
+                        </div>
+                        <a href="detalle.html" id="glass-color-3">
+                            <img src="img/glass-3.png">
+                        </a>
+                        <div class="gallery-name">
+                            <span>G-2093</span>
+                        </div>
+                        <div class="gallery-footer">
+                            <span>$62.30</span>
+                            <span style="font-size: 16px;cursor: pointer;">Ver</span>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="gallery-head">
+                            <span>15% Oferta</span>
+                            <a href="javascript:void(0)" class="favorites">
+                                <i class="fa fa-heart-o"></i>
+                                <i class="fa fa-heart"></i>
+                            </a>                        
+                        </div>
+                        <div class="gallery-colors">
+                            <span class="glass-color-7"></span>
+                            <span class="glass-color-8"></span>
+                        </div>
+                        <a href="detalle.html" id="glass-color-4">
+                            <img src="img/glass-4.png">
+                        </a>
+                        <div class="gallery-name">
+                            <span>G-2094</span>
+                        </div>
+                        <div class="gallery-footer">
+                            <span>$62.30</span>
+                            <span style="font-size: 16px;cursor: pointer;">Ver</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -300,7 +362,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md">
-                    <p>2019 Opti Austral, Salud Visual, Opticas en Santiago y Quilpe Sitio Web diseñado y desarrollado por SHAADES DIGITAL SERVICE</p>
+                    <p>2019 Opti Austral, Salud Visual, Ópticas en Santiago y Quilpué Sitio Web diseñado y desarrollado por SHAADES DIGITAL SERVICE</p>
                 </div>
             </div>
         </div>
