@@ -1,12 +1,12 @@
 <?php require "conec.php";?>
                         <?php
                         $id=$_GET['id'];
-                        $consulta="SELECT * from lenses_description where id_lens_description=".$id;
+                        $consulta="SELECT *,format(precio,0) as precio from lenses_description, lenses_inventory where pk_inventory_description=id_lens_description and id_lens_description=".$id;
                         $resultado=mysqli_query($conexion, $consulta) or die ("no se pudo realizar la consulta por ".mysql_error());
                         while($columna=mysqli_fetch_array($resultado)){?>
-<!DOCTYPE html>
-<html class="no-js" lang="es"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<!doctype html>
+<html class="no-js" lang="es">
+<head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>OptiAustral</title>
@@ -14,14 +14,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="manifest" href="site.webmanifest">
   <!-- Favicon -->
-  <link rel="icon" href="http://optiaustral.cl/wp-content/uploads/2017/12/cropped-optiaustra-favicon-32x32.png" sizes="32x32">
+  <link rel="icon" href="http://optiaustral.cl/wp-content/uploads/2017/12/cropped-optiaustra-favicon-32x32.png" sizes="32x32" />
   <!-- Google Fonts -->
-  <link href="css/css.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
   <!-- Font Awesome -->
-  <link href="css/font-awesome.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <!-- Grid Bootstrap -->
-  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
   <!-- Styles CSS -->
+  <link rel="stylesheet" href="css/magnifier.css">
+  <link rel="stylesheet" type="text/css" href="css/slick.css"/>
+  <link rel="stylesheet" type="text/css" href="css/slick-theme.css"/>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -73,8 +76,8 @@
                     <li class="products-dropdown">
                         <a href="javascript:void(0)">Productos</a>
                         <ul class="p-dropdown">
-                            <a href="hombres.html">Lentes de Hombre</a>
-                            <a href="mujer.html">Lentes de Mujes</a>
+                            <a href="hombres.php">Lentes de Hombre</a>
+                            <a href="mujer.php">Lentes de Mujes</a>
                         </ul>
                     </li>
                     <li class="services-dropdown">
@@ -104,25 +107,23 @@
     </header>
 
     <main>
-     
-
         <section class="glass">
             <div class="container">
                 <div class="glass-colors">
                     <div class="glass-change">
                         <span class="glass-change-left">
-                            <div class="glass-profile glass-zoom" style="position: relative; overflow: hidden;">
-                                <img <?php echo "src='".$columna['img_frontal']."'"; ?>>
+                            <div class="glass-profile" id="front-img">
+                                <img <?php echo "src='".$columna['img_frontal']."'"; ?> onclick="cambiar(this)"; id="frontal" class="thumb">
                                 <p>Frontal</p>
-                            <img role="presentation" alt="" <?php echo "src='".$columna['img_frontal']."'"; ?> class="zoomImg" style="position: absolute; top: -401.982px; left: -685.047px; opacity: 0; width: 864px; height: 864px; border: medium none; max-width: none; max-height: none;"></div>
-                            <div class="glass-profile glass-zoom" style="position: relative; overflow: hidden;">
-                                <img <?php echo "src='".$columna['img_diagonal']."'"; ?>>
-                                <p id="glass2">Trasera</p>
-                            <img role="presentation" alt="" <?php echo "src='".$columna['img_diagonal']."'"; ?> class="zoomImg" style="position: absolute; top: 0px; left: 0px; opacity: 0; width: 864px; height: 864px; border: medium none; max-width: none; max-height: none;"></div>
-                            <div class="glass-profile glass-zoom" style="position: relative; overflow: hidden;">
-                                <img <?php echo "src='".$columna['img_lateral']."'"; ?> id="glass3">
+                            </div>
+                            <div class="glass-profile" id="tras-img">
+                                <img <?php echo "src='".$columna['img_diagonal']."'"; ?> onclick="cambiar(this)"; id="trasera" class="thumb">
+                                <p id="glass2">Perspectiva</p>
+                            </div>
+                            <div class="glass-profile" id="lat-img">
+                                <img <?php echo "src='".$columna['img_lateral']."'"; ?> id="lateral" onclick="cambiar(this)"; class="thumb">
                                 <p id="glass3">Lateral</p>
-                            <img role="presentation" alt="" <?php echo "src='".$columna['img_lateral']."'"; ?> class="zoomImg" style="position: absolute; top: -235.382px; left: -219.481px; opacity: 0; width: 864px; height: 864px; border: medium none; max-width: none; max-height: none;"></div>
+                            </div>
                         </span>
                       
                         <span>
@@ -149,14 +150,14 @@
                                 </div>
                             </div>
                             <div class="glass-photo" id="photo">
-                                <div class="glass-profile glass-zoomBig" style="position: relative; overflow: hidden;">
-                                    <img <?php echo "src='".$columna['img_frontal']."'"; ?> alt="">
-                                <img role="presentation" alt="" src="img/glass-thumb1.png" class="zoomImg" style="position: absolute; top: -50.4845px; left: -616.884px; opacity: 0; width: 1296px; height: 1296px; border: medium none; max-width: none; max-height: none;"></div>
+                                <div class="glass-profile glass-zoomBig">
+                                    <img <?php echo "src='".$columna['img_frontal']."'"; ?> id="general" class="thumb">
+                               </div>
                             </div>
                         </span>
                     </div>
                     <div class="glass-controls">
-                        <div style="display: flex;flex-direction: column;width: 250px;">
+                        <div class="fix">
                             <span class="glass-trial">
                                 <label class="glass-uplaod" for="inputGroupFile01">
                                     <i class="fa fa-upload"></i>
@@ -164,20 +165,20 @@
                                     <input type="file" id="inputGroupFile01" class="imgInp custom-file-input">
                                 </label>
                             </span>
-                            <span class="glass-trial" id="try"><i class="fa fa-camera"></i>Pruebatelo</span>
+                            <span class="glass-trial" id="try"><i class="fa fa-camera"></i>Pruébatelos</span>
                             <span class="glass-trial" id="notTry"><i class="fa fa-eye"></i>Ver Lente</span>
                         </div>
                         <div class="glass-cartInfo">
                             <li>
                                 <div class="glass-votes">
                                     <div class="glass-labelStar">
-                                        <p class="glasss1">0</p>
+                                        <p>0</p>
                                         <p>5</p>
                                         <p>10</p>
                                         <p>15</p>
                                         <p>20</p>
                                     </div>
-                                    <div class="rating" data-rate-value="6" style="width: 116.583px; height: 39.2px; position: relative; cursor: default; -moz-user-select: none;"><div class="rate-base-layer" style="width: 100%; height: 39.2px; overflow: hidden; position: absolute; top: 0px; display: block; white-space: nowrap;"><span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span></div><div class="rate-select-layer" style="width: 120%; height: 39.2px; overflow: hidden; position: absolute; top: 0px; display: block; white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div><div class="rate-hover-layer" style="width: 50%; height: 39.2px; overflow: hidden; position: absolute; top: 0px; display: none; white-space: nowrap;"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div></div>
+                                    <div class="rating" data-rate-value=6></div>
                                     <p>Excelente</p>
                                 </div>
                             </li>
@@ -190,7 +191,7 @@
                                 <div style="display: flex;flex-direction: column;">
                                     <div class="glass-price">
                                         <p>Precio</p>
-                                        <h4>$95.00</h4>
+                                        <h4><?php echo $columna["precio"]."".$columna["moneda"];?></h4>
                                     </div>
                                     <a href="#" class="glass-trial">Comprar</a>
                                 </div>
@@ -202,11 +203,7 @@
                     <h3>Descripcion del Producto</h3>
                     <article>
                         <h4>Marcas y Medidas</h4>
-                        <p>Lorem ipsum dolor, sit amet consectetur 
-adipisicing elit. Ab nostrum eaque illo commodi quia explicabo facilis 
-quaerat provident eveniet delectus.</p>
-
-
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ab nostrum eaque illo commodi quia explicabo facilis quaerat provident eveniet delectus.</p>
                         <ul>
                             <li>Detalles</li>
                             <?php echo "<li>Talla: <span>".$columna['talla']."</span></li>";?>
@@ -228,60 +225,69 @@ quaerat provident eveniet delectus.</p>
             </div>
         </section>
 
-        <div class="offerts">
+         <div class="offerts">
             <div class="container">
-                <h3>Conoce todos nuestros <span>Productos</span></h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing 
-elit. Accusamus architecto minus at doloribus dolores, ratione pariatur 
-mollitia numquam delectus voluptatem!</p>
-                <div href="detalle.html" class="offerts-items">
-                    <a class="offerts-item">
-                        <span>13% Offert</span>
+                <h3>Lentes en <span>Oferta</span></h3>
+                <p>Revisa nuestro catálogo de ofertas especiales</p>
+                <div class="offerts-items">
+                    <a href="detalle.html" class="offerts-item">
+                        <span>Oferta</span>
                         <img src="img/glass-1.png" alt="">
-                        <div></div>
-                        <h4 class="offerts-price">200$</h4>
+                        <h4 class="offerts-price">50.000,00 Pcl</h4>
                     </a>
                     <a href="detalle.html" class="offerts-item">
-                        <span>13% Offert</span>
+                        <span>Oferta</span>
                         <img src="img/glass-2.png" alt="">
-                        <h4 class="offerts-price">200$</h4>
+                        <h4 class="offerts-price">50.000,00 Pcl</h4>
                     </a>
                     <a href="detalle.html" class="offerts-item">
-                        <span>13% Offert</span>
+                        <span>Oferta</span>
                         <img src="img/glass-3.png" alt="">
-                         <h4 class="offerts-price">200$</h4>
+                        <h4 class="offerts-price">50.000,00 Pcl</h4>
                     </a>
                     <a href="detalle.html" class="offerts-item">
-                        <span>13% Offert</span>
+                        <span>Oferta</span>
                         <img src="img/glass-4.png" alt="">
-                         <h4 class="offerts-price">200$</h4>
+                        <h4 class="offerts-price">50.000,00 Pcl</h4>
                         
                     </a>
                     <a href="detalle.html" class="offerts-item">
-                        <span>13% Offert</span>
+                        <span>Oferta</span>
                         <img src="img/glass-5.png" alt="">
-                         <h4 class="offerts-price">200$</h4>
+                       <h4 class="offerts-price">50.000,00 Pcl</h4>
                     </a>
                     <a href="detalle.html" class="offerts-item">
-                        <span>13% Offert</span>
+                        <span>Oferta</span>
                         <img src="img/glass-1.png" alt="">
-                        <h4 class="offerts-price">200$</h4>&gt;
+                       <h4 class="offerts-price">50.000,00 Pcl</h4>
+                    </a>
+                    <a href="detalle.html" class="offerts-item">
+                        <span>Oferta</span>
+                        <img src="img/glass-3.png" alt="">
+                        <h4 class="offerts-price">50.000,00 Pcl</h4>
+                    </a>
+                    <a href="detalle.html" class="offerts-item">
+                        <span>Oferta</span>
+                        <img src="img/glass-4.png" alt="">
+                        <h4 class="offerts-price">50.000,00 Pcl</h4>
+                        
                     </a>
                 </div>
             </div>
         </div>
+
         <div class="question">
             <div class="container">
         
                 <h3>1. Para que usted utiliza sus vidrios?</h3>
                 <div class="question-body">
                     <div class="question-item">
-                        <h4>Vision Unica</h4>
+                        <h4>Visión Única</h4>
                         <p>Distancia</p>
                         <span>Incluida</span>
                     </div>
                     <div class="question-item">
-                        <h4>Vision Cercana</h4>
+                        <h4>Visión Cercana</h4>
                         <p>Lectura</p>
                         <span>Incluida</span>
                     </div>
@@ -296,7 +302,7 @@ mollitia numquam delectus voluptatem!</p>
                         <span>$ 88</span>
                     </div>
                     <div class="question-item">
-                        <h4>Sin Prescripcion</h4>
+                        <h4>Sin Prescripción</h4>
                         <p>Moda</p>
                         <span>Incluida</span>
                     </div>
@@ -307,10 +313,10 @@ mollitia numquam delectus voluptatem!</p>
 
         <div class="prescription">
             <div class="container">
-                <h3>2. Ingrese su prescripcion</h3>
+                <h3>2. Ingrese su prescripción</h3>
                 <div class="prescription-body">
                     <div class="prescription-tabs">
-                        <li class="is-active">LLenalo En linea</li>
+                        <li class="is-active">LLénalo En línea</li>
                         <li>Cargar o enviar mas tarde</li>
                         <li>Usar mi receta guardada</li>
                     </div>
@@ -330,7 +336,7 @@ mollitia numquam delectus voluptatem!</p>
                                             <li data-value="en">Option 1</li>
                                             <li data-value="es">Option 2</li>
                                         </ul>
-                                        <input type="hidden" name="changeme">
+                                        <input type="hidden" name="changeme"/>
                                     </div>
                                 </div>
                             </div>
@@ -343,7 +349,7 @@ mollitia numquam delectus voluptatem!</p>
                                             <li data-value="en">Option 1</li>
                                             <li data-value="es">Option 2</li>
                                         </ul>
-                                        <input type="hidden" name="changeme">
+                                        <input type="hidden" name="changeme"/>
                                     </div>
                                 </div>
                             </div>
@@ -356,7 +362,7 @@ mollitia numquam delectus voluptatem!</p>
                                             <li data-value="en">Option 1</li>
                                             <li data-value="es">Option 2</li>
                                         </ul>
-                                        <input type="hidden" name="changeme">
+                                        <input type="hidden" name="changeme"/>
                                     </div>
                                 </div>
                             </div>
@@ -369,7 +375,7 @@ mollitia numquam delectus voluptatem!</p>
                                             <li data-value="en">Option 1</li>
                                             <li data-value="es">Option 2</li>
                                         </ul>
-                                        <input type="hidden" name="changeme">
+                                        <input type="hidden" name="changeme"/>
                                     </div>
                                 </div>
                             </div>
@@ -388,7 +394,7 @@ mollitia numquam delectus voluptatem!</p>
                                             <li data-value="en">Option 1</li>
                                             <li data-value="es">Option 2</li>
                                         </ul>
-                                        <input type="hidden" name="changeme">
+                                        <input type="hidden" name="changeme"/>
                                     </div>
                                 </div>
                             </div>
@@ -401,7 +407,7 @@ mollitia numquam delectus voluptatem!</p>
                                             <li data-value="en">Option 1</li>
                                             <li data-value="es">Option 2</li>
                                         </ul>
-                                        <input type="hidden" name="changeme">
+                                        <input type="hidden" name="changeme"/>
                                     </div>
                                 </div>
                             </div>
@@ -413,7 +419,7 @@ mollitia numquam delectus voluptatem!</p>
                                             <li data-value="en">Option 1</li>
                                             <li data-value="es">Option 2</li>
                                         </ul>
-                                        <input type="hidden" name="changeme">
+                                        <input type="hidden" name="changeme"/>
                                     </div>
                                 </div>
                             </div>
@@ -425,7 +431,7 @@ mollitia numquam delectus voluptatem!</p>
                                             <li data-value="en">Option 1</li>
                                             <li data-value="es">Option 2</li>
                                         </ul>
-                                        <input type="hidden" name="changeme">
+                                        <input type="hidden" name="changeme"/>
                                     </div>
                                 </div>
                             </div>
@@ -447,14 +453,14 @@ mollitia numquam delectus voluptatem!</p>
                                             <li data-value="en">Option 1</li>
                                             <li data-value="es">Option 2</li>
                                         </ul>
-                                        <input type="hidden" name="changeme">
+                                        <input type="hidden" name="changeme"/>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="prescription-item flex">
                                     <input type="checkbox" name="" class=" mr-2">
-                                    <p class="prescription-label">Tengo 2 numeros para mi PD</p>
+                                    <p class="prescription-label">Tengo 2 números para mi PD</p>
                                 </div>
                             </div>
                            
@@ -473,7 +479,7 @@ mollitia numquam delectus voluptatem!</p>
                                             <li data-value="en">Option 1</li>
                                             <li data-value="es">Option 2</li>
                                         </ul>
-                                        <input type="hidden" name="changeme">
+                                        <input type="hidden" name="changeme"/>
                                     </div>
                                 </div>
                             </div>
@@ -488,21 +494,63 @@ mollitia numquam delectus voluptatem!</p>
         <div class="container">
             <div class="row">
                 <div class="col-md">
-                    <p>2019 Opti Austral, Salud Visual, Opticas en Santiago y Quilpe Sitio Web diseñado y desarrollado por SHAADES DIGITAL SERVICE</p>
+                    <p>2019 Opti Austral, Salud Visual, Ópticas en Santiago y Quilpué Sitio Web diseñado y desarrollado por SHAADES DIGITAL SERVICE</p>
                 </div>
             </div>
         </div>
     </footer>
+ <!-- jQuery -->
+    <script src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/slick.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.offerts-items').slick({
+                infinite: true,
+                slidesToShow: 6,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+            });
+        });
+    </script>
+    <script src="js/event.js"></script>
+    <script src="js/magnifier.js"></script>
+    <script>
+        $('#lat-img').click(function(){
+            $(".glass-zoomBig img").attr('src', "img/glass-thumb2.png");
+        });
+        $('#front-img').click(function(){
+            $(".glass-zoomBig img").attr('src', "img/glass-thumb1.png");
+        });
+        $('#tras-img').click(function(){
+            $(".glass-zoomBig img").attr('src', "img/glass-thumb1.png");
+        });
+        $('.glass-color-2').click(function(){
+            $(".glass-zoomBig img").attr('src', "img/glass-1-alt.png");
+        });
+        $('.glass-color-1').click(function(){
+            $(".glass-zoomBig img").attr('src', "img/glass-1.png");
+        });
+
+        var evt = new Event(),
+            m = new Magnifier(evt);
+        m.attach({
+            thumb: '.thumb',
+            // large: 'http://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Starry_Night_Over_the_Rhone.jpg/1200px-Starry_Night_Over_the_Rhone.jpg',
+            mode: 'inside',
+            zoom: 3,
+            zoomable: true
+        });
+    </script>
+   
 
     <!-- jQuery -->
-    <script src="css/jquery.js"></script>
-    <!-- jQuery Bxslider -->
-    <script src="css/jquery_003.js"></script>
-    <script src="css/jquery_002.js"></script>
-    <script src="css/jquery-ui.js"></script>
-    <script src="css/rater.js"></script>
+   <script src="js/jquery.bxslider.js"></script>
+    <script src="js/jquery.zoom.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/rater.min.js"></script>
     <!-- Scripts -->
-    <script src="css/app.js"></script>
+    <script src="js/app.js"></script>
 
 
   <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
@@ -512,5 +560,13 @@ mollitia numquam delectus voluptatem!</p>
   </script>
   <!-- <script src="https://www.google-analytics.com/analytics.js" async defer></script> -->
 
+<script type="text/javascript">
+    function cambiar(ssrct){
+        var ssrc=document.getElementById(ssrct.id); 
+        var des=ssrc.getAttribute("src");
+        document.getElementById('general').src=des;
+        document.getElementById('zoom').src=des;
+          }
+</script>
 
 </body></html>

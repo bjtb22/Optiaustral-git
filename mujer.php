@@ -69,8 +69,8 @@
                     <li class="products-dropdown">
                         <a href="javascript:void(0)">Productos</a>
                         <ul class="p-dropdown">
-                            <a href="hombres.html">Lentes de Hombre</a>
-                            <a href="mujer.html">Lentes de Mujes</a>
+                            <a href="hombres.php">Lentes de Hombre</a>
+                            <a href="mujer.php">Lentes de Mujes</a>
                         </ul>
                     </li>
                     <li class="services-dropdown">
@@ -125,7 +125,7 @@
             </div>
             </div>
             <div class="slider-content">
-                <div class="d-none d-sm-block"><img src="img/banner-women.png" style="height: 300px;"></div>
+                <div class="d-none d-sm-block"><img src="img/banner-women.jpg" style="height: 300px;"></div>
                 <div class="d-block d-sm-none"><img src="img/banner-women-movil.jpg" alt=""></div>
             </div>
         </div>
@@ -262,7 +262,7 @@
                 </div>
                 <div class="gallery">
 <?php
-                        $consulta="SELECT codigo, img_artistica from lenses_description where (genero='unisex' OR genero='MUJER') AND img_artistica!='NULL'";
+                        $consulta="SELECT id_lens_description,codigo, img_artistica from lenses_description where (genero='unisex' OR genero='MUJER') AND img_artistica!='NULL' LIMIT 12";
                         $resultado=mysqli_query($conexion, $consulta) or die ("no se pudo realizar la consulta por ".mysql_error());
                         while($columna=mysqli_fetch_array($resultado)){?>
                     <div class="gallery-item">
@@ -277,7 +277,7 @@
                             <span class="glass-color-1"></span>
                             <span class="glass-color-2"></span>
                         </div>
-                        <a href="detalle.html" id="glass-color-1">
+                        <?php echo "<a href='detalle.php?id=".$columna['id_lens_description']."' id='glass-color-1'>";?>
                 
                           <?php
                             echo"<img src=".$columna['img_artistica'].">";
